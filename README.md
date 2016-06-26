@@ -1,6 +1,10 @@
 # HelloWorld Walkthrough using Docker 1.12 
 
-At DockerCon 2016 1.12 was announced and 2 significant new features are now available in beta.  More details on the official blog :
+![1.12](img/dcon.jpg)
+
+Amongst the announcements at DockerCon 2016 last week was the pending release of Docker 1.12.  This release includes 2 significant new features : Swarm Mode and Services.  
+
+More details on the official blog :
 
 https://blog.docker.com/2016/06/docker-1-12-built-in-orchestration/
 
@@ -8,7 +12,7 @@ Swarm Mode and Services
 
 ## Swarm mode
 
-Previous to Docker 1.12 swarm creation and management was done using the swarm:latest image or from pre-built swarm binaries.  In 1.12 the swarm commands are now baked into the docker cli.  This makes the creation and maintainance of swarm clusters super simple. In the walkthrough below we will create a 3 node swarm cluster and run a simple 'HelloWorld' app on the cluster.
+Previous to Docker 1.12 swarm cluster creation and management was done using the swarm:latest image or from pre-built swarm binaries.  In 1.12 the swarm commands are now baked into the docker cli.  This makes the creation and maintainance of swarm clusters super simple. In the walkthrough below we will create a 3 node swarm cluster and run a simple 'HelloWorld' app on the cluster.
 
 ## Services
 
@@ -17,7 +21,11 @@ The 'docker service' command enables you to create a multi container service whi
 
 ## Walkthrough
 
-We have all seen 'HelloWorld' examples in the past and typically they involve running a single web application in a single container on a single host. This walkthrough will cover the steps to setup a simple 3 node swarm cluster and run a multi container HelloWorld app across all swarm nodes.
+We have all seen 'HelloWorld' examples in the past and typically they involve running a single web application in a single container on a single host. This walkthrough will cover the following :
+
+1. Setup a 3 node Swarm Cluster
+2. Create a 'HelloWorld' service
+3. Rolling update of 'HelloWorld' service
 
 This walkthrough has been tested on Ubuntu 16.04 with Docker 1.12-RC2 build.
 
@@ -180,4 +188,6 @@ cxxkt1ewhmxtwhvcwnoqto27z  helloworld.4  helloworld  thshaw/helloworld:v2  Prepa
 
 ```
 
-That's it.  Ok so it might be overkill to run a simple 'HelloWorld' app across a swarm cluster but it demonstrates the simplicity of moving from a single container/host application to a clustered multi container application.  This will be great for developers as it moves them even closer to a production like setup.
+# Summary 
+
+That's it.  Ok so it might be overkill to run a 'HelloWorld' app across a swarm cluster but it demonstrates the simplicity of moving from a single container/host application to a clustered multi container application.  This will be great for developers as it moves them even closer to a production like setup.
