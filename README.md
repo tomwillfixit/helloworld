@@ -1,14 +1,13 @@
-# HelloWorld Walkthrough using Docker 1.12 
+# HelloWorld using docker 1.12
 
 ![1.12](img/dcon.jpg)
 
-Amongst the announcements at DockerCon 2016 last week was the pending release of Docker 1.12.  This release includes 2 significant new features : Swarm Mode and Services.  
+Among the announcements at DockerCon 2016 last week was the pending release of Docker 1.12.  This release includes 2 significant new features : Swarm Mode and Services.  
 
 More details on the official blog :
 
 https://blog.docker.com/2016/06/docker-1-12-built-in-orchestration/
 
-Swarm Mode and Services
 
 ## Swarm mode
 
@@ -32,7 +31,9 @@ This walkthrough has been tested on Ubuntu 16.04 with Docker 1.12-RC2 build.
 ## Prerequisites 
 
 docker 1.12
+
 docker-machine 0.7.0
+
 VirtualBox
 
 ### Install Docker 1.12
@@ -83,7 +84,7 @@ docker network create -d overlay helloworld_net
 
 #### Create the 'HelloWorld' service
 
-Using a 'helloworld' image from Docker Hub for this walkthrough but feel free to build your own. Source included in this repo.
+Using a 'thshaw/helloworld' image from Docker Hub for this walkthrough but feel free to build your own. Source included in this repo.
 
 ```
 docker service create --name helloworld --network helloworld_net --replicas 1 --publish 80 thshaw/helloworld
@@ -114,7 +115,6 @@ ID                         NAME          SERVICE     IMAGE              LAST STA
 
 ```
 
-
 #### List everything running across the cluster 
 
 ```
@@ -138,7 +138,9 @@ echo "curl <node ip>:30000"
 #### Rolling update
 
 Looks like the HelloWorld app has a bug in it.  Docker 1.12 supports rolling updates so we can replace the service config over time.
+
 In this example we will update the 'HelloWorld' image being used from : thshaw/helloworld:latest to thshaw/helloworld:v2.
+
 We will replace one container every 30 seconds until all nodes are using the correct image.
 
 ```
@@ -190,4 +192,6 @@ cxxkt1ewhmxtwhvcwnoqto27z  helloworld.4  helloworld  thshaw/helloworld:v2  Prepa
 
 # Summary 
 
-That's it.  Ok so it might be overkill to run a 'HelloWorld' app across a swarm cluster but it demonstrates the simplicity of moving from a single container/host application to a clustered multi container application.  This will be great for developers as it moves them even closer to a production like setup.
+That's it.  Ok so it might be overkill to run a 'HelloWorld' app across a swarm cluster but it demonstrates the simplicity of moving from a single container/host application to a clustered multi container application.  
+
+This will be great for developers as it moves them even closer to a production like setup.
