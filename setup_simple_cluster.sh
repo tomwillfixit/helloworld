@@ -2,19 +2,25 @@
 
 # Description :
 
-# Creates a 3 node swarm cluster.  The swarm manager will be your docker host on which this script is being run.  The other 2 'worker' nodes will be started using boot2docker 1.12 experimental build
+# Creates a 3 node swarm cluster.  The swarm manager will be your docker host on which this script is being run.  The other 2 'worker' nodes will be started using boot2docker 1.12
 
 HOST_IP=$(ip route get 8.8.8.8 | awk '{print $NF; exit}')
 
+
 echo "Cleanup previous setup"
+sudo service docker restart
+docker swarm leave --force
+
 docker-machine ls |grep sw && docker-machine rm -f $(docker-machine ls -q) 
 
 echo "Remove previous helloworld service"
 docker service ls |grep helloworld && docker service rm helloworld
 
 echo "Create swarm manager on laptop : ${HOST_IP}"
-docker swarm init --force-new-cluster --listen-addr ${HOST_IP}:2377
+docker swarm init --force-new-cluster --listen-addr ${HOST_IP}:2377 --advertise-addr ${HOST_IP}
 sleep 5
+
+TOKEN=$(docker swarm join-token manager -q)
 
 # create swarm nodes
 
@@ -22,9 +28,10 @@ for node in sw01 sw02;
 do
 
     echo "Creating swarm node :  ${node}"
-    docker-machine create -d virtualbox --virtualbox-boot2docker-url=https://github.com/boot2docker/boot2docker/releases/download/v1.12.0-rc2/boot2docker-experimental.iso ${node} 
-
-    docker-machine ssh ${node} docker swarm join ${HOST_IP}:2377 
+    docker-machine create -d virtualbox --virtualbox-boot2docker-url=https://github.com/boot2docker/boot2docker/releases/download/v1.12.0/boot2docker.iso ${node} 
+    sleep 5
+    docker-machine ssh ${node} docker swarm join --token=${TOKEN} ${HOST_IP}:2377 
+    sleep 5
 done
 
 # list nodes
